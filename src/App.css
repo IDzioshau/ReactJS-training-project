@@ -1,16 +1,3 @@
-.App-header {
-  background-color: #4173d8;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.h1-header {
-  font-size: xx-large;
-  color: rgb(231, 235, 33);
-  text-shadow: 3px 3px 5px black;
+.cards div {
+    margin: 10px;
 }

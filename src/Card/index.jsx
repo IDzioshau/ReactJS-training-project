@@ -1,7 +1,7 @@
 import React from 'react';
-import './Card.css'
+import './Card.css';
 
-const card = (props) => {
+const Card = props => {
     return (
         <div className="Card">
             <h1>{props.caption}</h1>
@@ -11,4 +11,4 @@ const card = (props) => {
     )
 };
 
-export default card;
+export default Card;

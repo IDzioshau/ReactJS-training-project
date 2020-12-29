@@ -1,14 +1,15 @@
-import React from "react";
+import React from 'react';
 import './App.css';
-import Card from './Card/Card'
+import Card from './Card';
+import Header from './Header';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1 className="h1-header">React App</h1>
-      </header>
-      <Card caption="Caption1" text="any text"/>
+    <div>
+      <Header />
+      <div className="cards">
+        <Card caption="Caption1" text="any text" />
+      </div>
     </div>
   );
 }
