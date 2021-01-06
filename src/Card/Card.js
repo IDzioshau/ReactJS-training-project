@@ -8,7 +8,7 @@ const Card = props => {
 
     const switchStyle = event => {
         setCardState({
-            styleFlag: event.target.checked
+            styleFlag: !cardState.styleFlag
         });
     };
 
