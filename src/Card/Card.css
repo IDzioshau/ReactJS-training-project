@@ -5,6 +5,7 @@
     border: 5px outset green;
     box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
     border-radius: 8px;
+    word-break: break-all;
 }
 
 .card2 {
@@ -14,9 +15,15 @@
     border: 5px outset rgb(170, 29, 29);
     box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
     border-radius: 8px;
+    word-break: break-all;
 }
 
-.style-checkbox {
+.actions {
+    display: flex;
     float: right;
-    margin: 10px;
+    justify-content: flex-end;
+}
+
+.actions > * {
+    margin: 5px;
 }
