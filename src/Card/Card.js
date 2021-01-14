@@ -1,93 +1,88 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './Card.css';
-import { MdModeEdit } from "react-icons/md";
-import { BiSave } from "react-icons/bi";
-import { RiArrowGoBackLine } from "react-icons/ri";
+import { MdModeEdit } from 'react-icons/md';
+import { BiSave } from 'react-icons/bi';
+import { RiArrowGoBackLine } from 'react-icons/ri';
 
 
-const Card = props => {
-    const [cardState, setCardState] = useState({
-        caption: props.caption,
-        text: props.text
-    });
-
-    const [cardStateNew, setCardStateNew] = useState({
-        caption: props.caption,
-        text: props.text
-    });
-
-    const [cardStyle, setCardStyle] = useState({
-        styleFlag: false
-    });
-
-    const [cardEditMode, setCardEditMode] = useState({
+class Card extends Component {
+    state = {
+        caption: this.props.caption,
+        text: this.props.text,
+        newCaption: this.props.caption,
+        newText: this.props.text,
+        styleFlag: false,
         editMode: false
-    });
+    };
 
-    const switchStyle = () => {
-        setCardStyle({
-            styleFlag: !cardStyle.styleFlag
+    switchStyle = () => {
+        this.setState({
+            styleFlag: !this.state.styleFlag
         });
     };
 
-    const switchEditMode = () => {
-        if (cardStyle.styleFlag) {
-            switchStyle();
+    switchEditMode = () => {
+        if (this.state.styleFlag) {
+            this.switchStyle();
         }
-        setCardEditMode({
-            editMode: !cardEditMode.editMode
+        this.setState({
+            editMode: !this.state.editMode
         });
     };
 
-    const saveData = () => {
-        switchEditMode();
-        setCardState({
-            caption: cardStateNew.caption,
-            text: cardStateNew.text
+    saveData = () => {
+        this.switchEditMode();
+        this.setState({
+            caption: this.state.newCaption,
+            text: this.state.newText
         });
     };
 
-    const cancelData = () => {
-        switchEditMode();
+    cancelData = () => {
+        this.switchEditMode();
     };
 
-    const captionChangedHandler = event => {
-        setCardStateNew({
-            caption: event.target.value,
-            text: cardStateNew.text
+    captionChangedHandler = event => {
+        this.setState({
+            newCaption: event.target.value
         });
     };
 
-    const textChangedHandler = event => {
-        setCardStateNew({
-            caption: cardStateNew.caption,
-            text: event.target.value
+    textChangedHandler = event => {
+        this.setState({
+            newText: event.target.value
         });
     };
 
-    return (
-        cardEditMode.editMode 
-        ?
-        <div className="card">
-            <div className="actions">
-                <BiSave onClick={saveData} />
-                <RiArrowGoBackLine onClick={cancelData} />
+    render() {
+        return (
+            this.state.editMode 
+            ?
+            <div className="card">
+                <div className="card-header">
+                    <input type="text" onChange={this.captionChangedHandler} defaultValue={this.state.caption} />
+                    <div className="actions">
+                        <BiSave onClick={this.saveData} />
+                        <RiArrowGoBackLine onClick={this.cancelData} />
+                    </div>
+                </div>
+                <hr />
+                <textarea onChange={this.textChangedHandler} defaultValue={this.state.text} />
             </div>
-            <input type="text" onChange={captionChangedHandler} defaultValue={cardState.caption} />
-            <hr />
-            <textarea onChange={textChangedHandler} defaultValue={cardState.text} />
-        </div>
-        :
-        <div className={cardStyle.styleFlag ? "card2" : "card"}>
-            <div className="actions">
-                <MdModeEdit onClick={switchEditMode} />
-                <input type="checkbox" onChange={switchStyle} checked={cardStyle.styleFlag} />
+            :
+            <div className={this.state.styleFlag ? "card2" : "card"}>
+                <div className="card-header">
+                    <h1>{this.state.caption}</h1>
+                    <div className="actions">
+                        <MdModeEdit onClick={this.switchEditMode} />
+                        <input type="checkbox" onChange={this.switchStyle} checked={this.state.styleFlag} />
+                    </div>
+                </div>
+                <hr />
+                <p>{this.state.text}</p>
             </div>
-            <h1>{cardState.caption}</h1>
-            <hr />
-            <p>{cardState.text}</p>
-        </div>
-    )
+        )
+    };
 };
 
 export default Card;
