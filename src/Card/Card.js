@@ -55,31 +55,32 @@ class Card extends Component {
     };
 
     render() {
+        let {caption, text, editMode, styleFlag} = this.state;
         return (
-            this.state.editMode 
+            editMode 
             ?
             <div className="card">
                 <div className="card-header">
-                    <input type="text" onChange={this.captionChangedHandler} defaultValue={this.state.caption} />
+                    <input type="text" onChange={this.captionChangedHandler} defaultValue={caption} />
                     <div className="actions">
                         <BiSave onClick={this.saveData} />
                         <RiArrowGoBackLine onClick={this.cancelData} />
                     </div>
                 </div>
                 <hr />
-                <textarea onChange={this.textChangedHandler} defaultValue={this.state.text} />
+                <textarea onChange={this.textChangedHandler} defaultValue={text} />
             </div>
             :
-            <div className={this.state.styleFlag ? "card2" : "card"}>
+            <div className={styleFlag ? "card2" : "card"}>
                 <div className="card-header">
-                    <h1>{this.state.caption}</h1>
+                    <h1>{caption}</h1>
                     <div className="actions">
                         <MdModeEdit onClick={this.switchEditMode} />
-                        <input type="checkbox" onChange={this.switchStyle} checked={this.state.styleFlag} />
+                        <input type="checkbox" onChange={this.switchStyle} checked={styleFlag} />
                     </div>
                 </div>
                 <hr />
-                <p>{this.state.text}</p>
+                <p>{text}</p>
             </div>
         )
     };
