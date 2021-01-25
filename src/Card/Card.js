@@ -4,20 +4,22 @@ import { MdModeEdit } from 'react-icons/md';
 import { BiSave } from 'react-icons/bi';
 import { RiArrowGoBackLine } from 'react-icons/ri';
 
-
 class Card extends Component {
-    state = {
-        caption: this.props.caption,
-        text: this.props.text,
-        newCaption: this.props.caption,
-        newText: this.props.text,
-        styleFlag: false,
-        editMode: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            caption: this.props.caption,
+            text: this.props.text,
+            newCaption: this.props.caption,
+            newText: this.props.text,
+            styleFlag: false,
+            editMode: false,
+        };
+    }
 
     switchStyle = () => {
         this.setState({
-            styleFlag: !this.state.styleFlag
+            styleFlag: !this.state.styleFlag,
         });
     };
 
@@ -26,7 +28,7 @@ class Card extends Component {
             this.switchStyle();
         }
         this.setState({
-            editMode: !this.state.editMode
+            editMode: !this.state.editMode,
         });
     };
 
@@ -34,7 +36,7 @@ class Card extends Component {
         this.switchEditMode();
         this.setState({
             caption: this.state.newCaption,
-            text: this.state.newText
+            text: this.state.newText,
         });
     };
 
@@ -42,48 +44,68 @@ class Card extends Component {
         this.switchEditMode();
     };
 
-    captionChangedHandler = event => {
+    captionChangedHandler = (event) => {
         this.setState({
-            newCaption: event.target.value
+            newCaption: event.target.value,
         });
     };
 
-    textChangedHandler = event => {
+    textChangedHandler = (event) => {
         this.setState({
-            newText: event.target.value
+            newText: event.target.value,
         });
+    };
+
+    componentDidUpdate = () => {
+        if (this.props.readOnlyMode && this.state.editMode) {
+            this.cancelData();
+        }
+        return true;
     };
 
     render() {
-        let {caption, text, editMode, styleFlag} = this.state;
-        return (
-            editMode 
-            ?
+        const { caption, text, editMode, styleFlag } = this.state;
+        const { readOnlyMode } = this.props;
+
+        return editMode ? (
             <div className="card">
                 <div className="card-header">
-                    <input type="text" onChange={this.captionChangedHandler} defaultValue={caption} />
+                    <input
+                        type="text"
+                        onChange={this.captionChangedHandler}
+                        defaultValue={caption}
+                    />
                     <div className="actions">
                         <BiSave onClick={this.saveData} />
                         <RiArrowGoBackLine onClick={this.cancelData} />
                     </div>
                 </div>
                 <hr />
-                <textarea onChange={this.textChangedHandler} defaultValue={text} />
+                <textarea
+                    onChange={this.textChangedHandler}
+                    defaultValue={text}
+                />
             </div>
-            :
-            <div className={styleFlag ? "card2" : "card"}>
+        ) : (
+            <div className={styleFlag ? 'card2' : 'card'}>
                 <div className="card-header">
                     <h1>{caption}</h1>
                     <div className="actions">
-                        <MdModeEdit onClick={this.switchEditMode} />
-                        <input type="checkbox" onChange={this.switchStyle} checked={styleFlag} />
+                        {!readOnlyMode && (
+                            <MdModeEdit onClick={this.switchEditMode} />
+                        )}
+                        <input
+                            type="checkbox"
+                            onChange={this.switchStyle}
+                            checked={styleFlag}
+                        />
                     </div>
                 </div>
                 <hr />
                 <p>{text}</p>
             </div>
-        )
-    };
-};
+        );
+    }
+}
 
 export default Card;
