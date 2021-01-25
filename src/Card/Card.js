@@ -12,7 +12,8 @@ class Card extends Component {
         newCaption: this.props.caption,
         newText: this.props.text,
         styleFlag: false,
-        editMode: false
+        editMode: false,
+        readOnlyMode: this.props.readOnlyMode
     };
 
     switchStyle = () => {
@@ -55,7 +56,7 @@ class Card extends Component {
     };
 
     render() {
-        let {caption, text, editMode, styleFlag} = this.state;
+        let {caption, text, editMode, styleFlag, readOnlyMode} = this.state;
         return (
             editMode 
             ?
@@ -72,10 +73,11 @@ class Card extends Component {
             </div>
             :
             <div className={styleFlag ? "card2" : "card"}>
+                <p>{this.state.readOnlyMode ? <p>true</p> : <p>false</p>}</p>
                 <div className="card-header">
                     <h1>{caption}</h1>
                     <div className="actions">
-                        <MdModeEdit onClick={this.switchEditMode} />
+                        {readOnlyMode ? null : <MdModeEdit onClick={this.switchEditMode} />}
                         <input type="checkbox" onChange={this.switchStyle} checked={styleFlag} />
                     </div>
                 </div>
