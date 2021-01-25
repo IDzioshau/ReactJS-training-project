@@ -5,7 +5,7 @@
     width: 15%;
     background-color: rgb(163, 219, 163);
     border: 5px outset green;
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     word-break: break-all;
 }
@@ -17,7 +17,7 @@
     width: 15%;
     background-color: rgb(207, 240, 132);
     border: 5px outset rgb(170, 29, 29);
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     word-break: break-all;
 }

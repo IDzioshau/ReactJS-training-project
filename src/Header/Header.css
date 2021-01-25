@@ -1,12 +1,12 @@
 .app-header {
-  background-color: #4173d8;
-  min-height: 10vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-color: #4173d8;
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .h1-header {
-  color: rgb(231, 235, 33);
-  text-shadow: 3px 3px 5px black;
+    color: rgb(231, 235, 33);
+    text-shadow: 3px 3px 5px black;
 }
