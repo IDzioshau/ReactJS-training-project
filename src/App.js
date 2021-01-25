@@ -24,8 +24,8 @@ class App extends Component {
     })
   }
 
-  render() {
-    let cards = (
+  cards = () => {
+    return (
       <div>
         {this.state.cards.map(card => {
           return <Card 
@@ -34,14 +34,16 @@ class App extends Component {
             readOnlyMode={this.state.readOnlyMode} />
         })}
       </div>
-    );
+    )
+  };
 
+  render() {
     return (
       <>
         <Header />
         <div className="cards">
-          <label><input type="checkbox" onChange={this.switchEditMode} checked={this.state.readOnlyMode} />Read-Only</label>
-          {cards}
+          <input id="readOnlyMode" type="checkbox" onChange={this.switchEditMode} checked={this.state.readOnlyMode} /><label htmlFor="readOnlyMode">Read-Only</label>
+          {this.cards()}
         </div>
       </>
     )

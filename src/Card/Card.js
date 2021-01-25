@@ -6,14 +6,17 @@ import { RiArrowGoBackLine } from 'react-icons/ri';
 
 
 class Card extends Component {
-    state = {
-        caption: this.props.caption,
-        text: this.props.text,
-        newCaption: this.props.caption,
-        newText: this.props.text,
-        styleFlag: false,
-        editMode: false,
-        readOnlyMode: this.props.readOnlyMode
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            caption: this.props.caption,
+            text: this.props.text,
+            newCaption: this.props.caption,
+            newText: this.props.text,
+            styleFlag: false,
+            editMode: false
+        };
     };
 
     switchStyle = () => {
@@ -56,7 +59,13 @@ class Card extends Component {
     };
 
     render() {
-        let {caption, text, editMode, styleFlag, readOnlyMode} = this.state;
+        const {caption, text, editMode, styleFlag} = this.state;
+        const readOnlyMode = this.props.readOnlyMode;
+        
+        if (readOnlyMode && editMode) {
+            this.cancelData();
+        };
+
         return (
             editMode 
             ?
@@ -73,11 +82,10 @@ class Card extends Component {
             </div>
             :
             <div className={styleFlag ? "card2" : "card"}>
-                <p>{this.state.readOnlyMode ? <p>true</p> : <p>false</p>}</p>
                 <div className="card-header">
                     <h1>{caption}</h1>
                     <div className="actions">
-                        {readOnlyMode ? null : <MdModeEdit onClick={this.switchEditMode} />}
+                        {!readOnlyMode && <MdModeEdit onClick={this.switchEditMode} />}
                         <input type="checkbox" onChange={this.switchStyle} checked={styleFlag} />
                     </div>
                 </div>
