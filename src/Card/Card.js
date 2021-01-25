@@ -56,12 +56,12 @@ class Card extends Component {
         });
     };
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.readOnlyMode && this.state.editMode) {
+    componentDidUpdate = () => {
+        if (this.props.readOnlyMode && this.state.editMode) {
             this.cancelData();
         }
         return true;
-    }
+    };
 
     render() {
         const { caption, text, editMode, styleFlag } = this.state;
