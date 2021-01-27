@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
+import styled from 'styled-components';
 import Card from './Card';
 import Header from './Header';
+
+const StyledCheckbox = styled.input`
+    margin: 10px;
+    transform: scale(1.5);
+    &:hover {
+        box-shadow: 0px 0px 10px rgba(11, 161, 56, 0.5);
+        cursor: pointer;
+    }
+`;
 
 class App extends Component {
     state = {
@@ -44,7 +54,7 @@ class App extends Component {
             <>
                 <Header />
                 <div className="cards">
-                    <input
+                    <StyledCheckbox
                         id="readOnlyMode"
                         type="checkbox"
                         onChange={this.switchEditMode}
