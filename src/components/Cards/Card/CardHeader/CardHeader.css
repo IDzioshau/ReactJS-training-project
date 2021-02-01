@@ -1,0 +1,17 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-header > * {
+    margin: 0px;
+    display: flex;
+}
+
+.actions {
+    align-items: center;
+}
+
+.actions > * {
+    margin: 5px;
+}

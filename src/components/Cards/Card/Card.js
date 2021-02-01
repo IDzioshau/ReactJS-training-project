@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './Card.css';
-import { MdModeEdit } from 'react-icons/md';
-import { BiSave } from 'react-icons/bi';
-import { RiArrowGoBackLine } from 'react-icons/ri';
+import CardHeader from './CardHeader';
+import CardBody from './CardBody';
 
 class Card extends Component {
     constructor(props) {
@@ -21,6 +20,7 @@ class Card extends Component {
         this.setState({
             styleFlag: !this.state.styleFlag,
         });
+        this.props.select(this.props.id);
     };
 
     switchEditMode = () => {
@@ -44,13 +44,13 @@ class Card extends Component {
         this.switchEditMode();
     };
 
-    captionChangedHandler = (event) => {
+    captionChangedHandler = event => {
         this.setState({
             newCaption: event.target.value,
         });
     };
 
-    textChangedHandler = (event) => {
+    textChangedHandler = event => {
         this.setState({
             newText: event.target.value,
         });
@@ -67,42 +67,25 @@ class Card extends Component {
         const { caption, text, editMode, styleFlag } = this.state;
         const { readOnlyMode } = this.props;
 
-        return editMode ? (
-            <div className="card">
-                <div className="card-header">
-                    <input
-                        type="text"
-                        onChange={this.captionChangedHandler}
-                        defaultValue={caption}
-                    />
-                    <div className="actions">
-                        <BiSave onClick={this.saveData} />
-                        <RiArrowGoBackLine onClick={this.cancelData} />
-                    </div>
-                </div>
-                <hr />
-                <textarea
-                    onChange={this.textChangedHandler}
-                    defaultValue={text}
-                />
-            </div>
-        ) : (
+        return (
             <div className={styleFlag ? 'card2' : 'card'}>
-                <div className="card-header">
-                    <h1>{caption}</h1>
-                    <div className="actions">
-                        {!readOnlyMode && (
-                            <MdModeEdit onClick={this.switchEditMode} />
-                        )}
-                        <input
-                            type="checkbox"
-                            onChange={this.switchStyle}
-                            checked={styleFlag}
-                        />
-                    </div>
-                </div>
+                <CardHeader
+                    editMode={editMode}
+                    changed={this.captionChangedHandler}
+                    caption={caption}
+                    saveData={this.saveData}
+                    cancelData={this.cancelData}
+                    styleFlag={styleFlag}
+                    readOnlyMode={readOnlyMode}
+                    switchEditMode={this.switchEditMode}
+                    switchStyle={this.switchStyle}
+                />
                 <hr />
-                <p>{text}</p>
+                <CardBody
+                    editMode={editMode}
+                    changed={this.textChangedHandler}
+                    text={text}
+                />
             </div>
         );
     }
