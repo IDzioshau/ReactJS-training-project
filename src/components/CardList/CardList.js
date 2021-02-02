@@ -1,8 +1,8 @@
 import React from 'react';
-import './Cards.css';
+import './CardList.css';
 import Card from './Card';
 
-const Cards = props => (
+const CardList = props => (
     <div className="cards">
         {props.cards.map(card => {
             return (
@@ -12,11 +12,11 @@ const Cards = props => (
                     caption={card.caption}
                     text={card.text}
                     readOnlyMode={props.readOnlyMode}
-                    select={props.select}
+                    onSelectHandler={props.onSelectHandler}
                 />
             );
         })}
     </div>
 );
 
-export default Cards;
+export default CardList;

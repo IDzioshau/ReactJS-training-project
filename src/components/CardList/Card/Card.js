@@ -20,7 +20,7 @@ class Card extends Component {
         this.setState({
             styleFlag: !this.state.styleFlag,
         });
-        this.props.select(this.props.id);
+        this.props.onSelectHandler(this.props.id);
     };
 
     switchEditMode = () => {

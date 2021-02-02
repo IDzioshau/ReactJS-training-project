@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import styled from 'styled-components';
-import Cards from '../components/Cards';
+import CardList from '../components/CardList';
 import Header from '../components/Header';
 
 const StyledCheckbox = styled.input`
@@ -50,16 +50,18 @@ class App extends Component {
         const cardIndex = this.state.cards.findIndex(c => c.id === id);
         const cards = [...this.state.cards];
         cards[cardIndex].selected = !cards[cardIndex].selected;
-        this.setState({ cards: cards });
+        this.setState({ cards });
     };
 
     deleteSelectedCards = () => {
-        let cards = [...this.state.cards];
-        cards = cards.filter(c => !c.selected);
-        this.setState({ cards: cards });
+        this.setState(state => ({
+            cards: state.cards.filter(c => !c.selected),
+        }));
     };
 
     render() {
+        const { readOnlyMode, cards } = this.state;
+
         return (
             <>
                 <Header />
@@ -67,16 +69,16 @@ class App extends Component {
                     id="readOnlyMode"
                     type="checkbox"
                     onChange={this.switchReadOnlyMode}
-                    checked={this.state.readOnlyMode}
+                    checked={readOnlyMode}
                 />
                 <label htmlFor="readOnlyMode">Read-Only</label>
                 <StyledButton onClick={this.deleteSelectedCards}>
                     Delete selected cards
                 </StyledButton>
-                <Cards
-                    cards={this.state.cards}
-                    readOnlyMode={this.state.readOnlyMode}
-                    select={this.selectCard}
+                <CardList
+                    cards={cards}
+                    readOnlyMode={readOnlyMode}
+                    onSelectHandler={this.selectCard}
                 />
             </>
         );
