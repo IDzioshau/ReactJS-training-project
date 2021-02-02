@@ -75,11 +75,13 @@ class App extends Component {
                 <StyledButton onClick={this.deleteSelectedCards}>
                     Delete selected cards
                 </StyledButton>
-                <CardList
-                    cards={cards}
-                    readOnlyMode={readOnlyMode}
-                    onSelectHandler={this.selectCard}
-                />
+                <div className="cards">
+                    <CardList
+                        cards={cards}
+                        readOnlyMode={readOnlyMode}
+                        onSelectHandler={this.selectCard}
+                    />
+                </div>
             </>
         );
     }
