@@ -3,6 +3,7 @@ import './App.css';
 import styled from 'styled-components';
 import CardList from '../components/CardList';
 import Header from '../components/Header';
+import { v4 as uuidv4 } from 'uuid';
 
 const StyledCheckbox = styled.input`
     margin: 10px;
@@ -19,6 +20,18 @@ const StyledButton = styled.button`
     color: white;
     &:hover {
         background-color: lightgreen;
+        box-shadow: 1px 1px 10px rgba(171, 243, 137, 0.5);
+        color: black;
+        cursor: pointer;
+    }
+`;
+
+const CreateCardButton = styled.button`
+    margin: 10px;
+    background-color: Salmon;
+    color: white;
+    &:hover {
+        background-color: LightSalmon;
         box-shadow: 1px 1px 10px rgba(171, 243, 137, 0.5);
         color: black;
         cursor: pointer;
@@ -59,6 +72,20 @@ class App extends Component {
         }));
     };
 
+    createNewCard = () => {
+        this.setState(state => ({
+            cards: [
+                ...state.cards,
+                {
+                    id: uuidv4(),
+                    caption: 'new Card',
+                    text: '',
+                    selected: false,
+                },
+            ],
+        }));
+    };
+
     render() {
         const { readOnlyMode, cards } = this.state;
 
@@ -75,6 +102,9 @@ class App extends Component {
                 <StyledButton onClick={this.deleteSelectedCards}>
                     Delete selected cards
                 </StyledButton>
+                <CreateCardButton onClick={this.createNewCard}>
+                    Create new card
+                </CreateCardButton>
                 <div className="cards">
                     <CardList
                         cards={cards}
