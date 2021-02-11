@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import '../components/CardList/Card/Card.css';
-import MDSpinner from "react-md-spinner";
+import MDSpinner from 'react-md-spinner';
 
 const withLoadingDelay = WrappedComponent => {
     return props => {
-        const [state, setState] = useState({ show: false });
+        const [loading, setLoading] = useState(false);
 
-        const showComponent = () => {
-            setTimeout(() => setState({ show: true }), 2000);
-        };
+        setTimeout(() => setLoading(true), 2000);
 
-        return state.show ? (
+        return loading ? (
             <WrappedComponent {...props} />
         ) : (
-            <div className='card'>
+            <div className="card">
                 <MDSpinner duration={2000} />
-                {showComponent()}
             </div>
         );
     };
