@@ -64,12 +64,18 @@ class App extends Component {
                     checked={readOnlyMode}
                 />
                 <label htmlFor="readOnlyMode">Read-Only</label>
-                <StyledButton onClick={this.context.handleCardDelete}>
-                    Delete selected cards
-                </StyledButton>
-                <CreateCardButton onClick={this.context.handleCardCreate}>
-                    Create new card
-                </CreateCardButton>
+                <CardsContext.Consumer>
+                    {context => (
+                        <>
+                            <StyledButton onClick={context.handleCardDelete}>
+                                Delete selected cards
+                            </StyledButton>
+                            <CreateCardButton onClick={context.handleCardCreate}>
+                                Create new card
+                            </CreateCardButton>
+                        </>
+                    )}
+                </CardsContext.Consumer>
                 <div className="cards">
                     <CardList readOnlyMode={readOnlyMode} />
                 </div>
