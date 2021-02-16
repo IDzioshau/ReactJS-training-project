@@ -3,7 +3,7 @@ import './App.css';
 import styled from 'styled-components';
 import CardList from '../components/CardList';
 import Header from '../components/Header';
-import { v4 as uuidv4 } from 'uuid';
+import CardsContext, { CardsContextProvider } from '../context/CardsContext';
 
 const StyledCheckbox = styled.input`
     margin: 10px;
@@ -40,18 +40,10 @@ const CreateCardButton = styled.button`
 
 class App extends Component {
     state = {
-        cards: [
-            { id: 1, caption: 'Caption1', text: 'any text', selected: false },
-            { id: 2, caption: 'Caption2', text: 'any text', selected: false },
-            { id: 3, caption: 'Caption3', text: 'any text', selected: false },
-            { id: 4, caption: 'Caption4', text: 'any text', selected: false },
-            { id: 5, caption: 'Caption5', text: 'any text', selected: false },
-            { id: 6, caption: 'Caption6', text: 'any text', selected: false },
-            { id: 7, caption: 'Caption7', text: 'any text', selected: false },
-            { id: 8, caption: 'Caption8', text: 'any text', selected: false },
-        ],
         readOnlyMode: false,
     };
+
+    static contextType = CardsContext;
 
     switchReadOnlyMode = () => {
         this.setState({
@@ -59,38 +51,11 @@ class App extends Component {
         });
     };
 
-    selectCard = id => {
-        const cardIndex = this.state.cards.findIndex(c => c.id === id);
-        const cards = [...this.state.cards];
-        cards[cardIndex].selected = !cards[cardIndex].selected;
-        this.setState({ cards });
-    };
-
-    deleteSelectedCards = () => {
-        this.setState(state => ({
-            cards: state.cards.filter(c => !c.selected),
-        }));
-    };
-
-    createNewCard = () => {
-        this.setState(state => ({
-            cards: [
-                ...state.cards,
-                {
-                    id: uuidv4(),
-                    caption: 'new Card',
-                    text: '',
-                    selected: false,
-                },
-            ],
-        }));
-    };
-
     render() {
-        const { readOnlyMode, cards } = this.state;
+        const { readOnlyMode } = this.state;
 
         return (
-            <>
+            <CardsContextProvider>
                 <Header />
                 <StyledCheckbox
                     id="readOnlyMode"
@@ -99,20 +64,16 @@ class App extends Component {
                     checked={readOnlyMode}
                 />
                 <label htmlFor="readOnlyMode">Read-Only</label>
-                <StyledButton onClick={this.deleteSelectedCards}>
+                <StyledButton onClick={this.context.handleCardDelete}>
                     Delete selected cards
                 </StyledButton>
-                <CreateCardButton onClick={this.createNewCard}>
+                <CreateCardButton onClick={this.context.handleCardCreate}>
                     Create new card
                 </CreateCardButton>
                 <div className="cards">
-                    <CardList
-                        cards={cards}
-                        readOnlyMode={readOnlyMode}
-                        onSelectHandler={this.selectCard}
-                    />
+                    <CardList readOnlyMode={readOnlyMode} />
                 </div>
-            </>
+            </CardsContextProvider>
         );
     }
 }
