@@ -43,8 +43,6 @@ class App extends Component {
         readOnlyMode: false,
     };
 
-    static contextType = CardsContext;
-
     switchReadOnlyMode = () => {
         this.setState({
             readOnlyMode: !this.state.readOnlyMode,

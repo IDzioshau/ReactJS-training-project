@@ -11,28 +11,65 @@ const CardsContext = React.createContext({
 export class CardsContextProvider extends Component {
     state = {
         cards: [
-            { id: uuidv4(), caption: 'Caption1', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption2', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption3', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption4', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption5', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption6', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption7', text: 'any text', selected: false },
-            { id: uuidv4(), caption: 'Caption8', text: 'any text', selected: false },
+            {
+                id: uuidv4(),
+                caption: 'Caption1',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption2',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption3',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption4',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption5',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption6',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption7',
+                text: 'any text',
+                selected: false,
+            },
+            {
+                id: uuidv4(),
+                caption: 'Caption8',
+                text: 'any text',
+                selected: false,
+            },
         ],
     };
 
     deleteSelectedCards = () => {
         this.setState(state => ({
-            cards: state.cards.filter(c => !c.selected),
+            cards: state.cards.filter(card => !card.selected),
         }));
     };
 
     selectCard = id => {
-        const cardIndex = this.state.cards.findIndex(c => c.id === id);
-        const cards = [...this.state.cards];
-        cards[cardIndex].selected = !cards[cardIndex].selected;
-        this.setState({ cards });
+        this.setState(state => ({cards: state.cards.map(card => card.id === id ? {...card, selected: !card.selected} : card)}));
     };
 
     createNewCard = () => {
