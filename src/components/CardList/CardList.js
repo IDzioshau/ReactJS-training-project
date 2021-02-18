@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './CardList.css';
 import Card from './Card';
+import CardsContext from '../../context/CardsContext';
 
-const CardList = props =>
-    props.cards.map(card => {
+const CardList = props => {
+    const context = useContext(CardsContext);
+
+    return context.cards.map(card => {
         return (
             <Card
                 id={card.id}
@@ -11,9 +14,10 @@ const CardList = props =>
                 caption={card.caption}
                 text={card.text}
                 readOnlyMode={props.readOnlyMode}
-                onSelectHandler={props.onSelectHandler}
+                onSelectHandler={context.handleCardSelect}
             />
         );
     });
+};
 
 export default CardList;

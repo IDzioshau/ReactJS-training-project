@@ -3,6 +3,7 @@ import './Card.css';
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import withLoadingDelay from '../../../hoc/withLoadingDelay';
+import PropTypes from 'prop-types';
 
 class Card extends Component {
     constructor(props) {
@@ -91,5 +92,12 @@ class Card extends Component {
         );
     }
 }
+
+Card.propTypes = {
+    caption: PropTypes.string,
+    text: PropTypes.string,
+    id: PropTypes.string,
+    readOnlyMode: PropTypes.bool,
+};
 
 export default withLoadingDelay(Card);
