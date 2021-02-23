@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const CardsContext = React.createContext({
     cards: [],
@@ -10,57 +11,24 @@ const CardsContext = React.createContext({
 
 export class CardsContextProvider extends Component {
     state = {
-        cards: [
-            {
-                id: uuidv4(),
-                caption: 'Caption1',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption2',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption3',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption4',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption5',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption6',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption7',
-                text: 'any text',
-                selected: false,
-            },
-            {
-                id: uuidv4(),
-                caption: 'Caption8',
-                text: 'any text',
-                selected: false,
-            },
-        ],
+        cards: [],
     };
+
+    componentDidMount() {
+        axios
+            .get(
+                'https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json',
+            )
+            .then(response => {
+                const cards = response.data.slice(0, 15).map(item => ({
+                    id: item.Number,
+                    caption: item.Name,
+                    text: item.About,
+                    selected: false,
+                }));
+                this.setState({ cards });
+            });
+    }
 
     deleteSelectedCards = () => {
         this.setState(state => ({
@@ -69,7 +37,11 @@ export class CardsContextProvider extends Component {
     };
 
     selectCard = id => {
-        this.setState(state => ({cards: state.cards.map(card => card.id === id ? {...card, selected: !card.selected} : card)}));
+        this.setState(state => ({
+            cards: state.cards.map(card =>
+                card.id === id ? { ...card, selected: !card.selected } : card,
+            ),
+        }));
     };
 
     createNewCard = () => {
