@@ -1,3 +1,9 @@
-.cards div {
-    margin: 10px;
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:right;
+}
+
+.cards * {
+    margin: 15px;
 }

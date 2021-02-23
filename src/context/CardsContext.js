@@ -11,7 +11,7 @@ const CardsContext = React.createContext({
 
 export class CardsContextProvider extends Component {
     state = {
-        cards: null,
+        cards: [],
     };
 
     componentDidMount() {
@@ -20,14 +20,13 @@ export class CardsContextProvider extends Component {
                 'https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json',
             )
             .then(response => {
-                const data = response.data.slice(0, 15);
-                const cards = data.map(item => ({
+                const cards = response.data.slice(0, 15).map(item => ({
                     id: item.Number,
                     caption: item.Name,
                     text: item.About,
                     selected: false,
                 }));
-                this.setState({ cards: cards });
+                this.setState({ cards });
             });
     }
 
@@ -61,18 +60,16 @@ export class CardsContextProvider extends Component {
 
     render() {
         return (
-            this.state.cards && (
-                <CardsContext.Provider
-                    value={{
-                        cards: this.state.cards,
-                        handleCardCreate: this.createNewCard,
-                        handleCardDelete: this.deleteSelectedCards,
-                        handleCardSelect: this.selectCard,
-                    }}
-                >
-                    {this.props.children}
-                </CardsContext.Provider>
-            )
+            <CardsContext.Provider
+                value={{
+                    cards: this.state.cards,
+                    handleCardCreate: this.createNewCard,
+                    handleCardDelete: this.deleteSelectedCards,
+                    handleCardSelect: this.selectCard,
+                }}
+            >
+                {this.props.children}
+            </CardsContext.Provider>
         );
     }
 }

@@ -1,8 +1,9 @@
 .card {
     display: inline-block;
-    min-width: 250px;
+    width: 300px;
+    height: 250px;
+    overflow: auto;
     padding: 5px;
-    width: 15%;
     background-color: rgb(163, 219, 163);
     border: 5px outset green;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
@@ -12,9 +13,10 @@
 
 .card2 {
     display: inline-block;
-    min-width: 250px;
+    width: 300px;
+    height: 250px;
+    overflow: auto;
     padding: 5px;
-    width: 15%;
     background-color: rgb(207, 240, 132);
     border: 5px outset rgb(170, 29, 29);
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
