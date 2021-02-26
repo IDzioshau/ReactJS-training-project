@@ -1,82 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-import styled from 'styled-components';
-import CardList from '../components/CardList';
 import Header from '../components/Header';
-import CardsContext, { CardsContextProvider } from '../context/CardsContext';
-
-const StyledCheckbox = styled.input`
-    margin: 10px;
-    transform: scale(1.5);
-    &:hover {
-        box-shadow: 0px 0px 10px rgba(11, 161, 56, 0.5);
-        cursor: pointer;
-    }
-`;
-
-const StyledButton = styled.button`
-    margin: 10px;
-    background-color: green;
-    color: white;
-    &:hover {
-        background-color: lightgreen;
-        box-shadow: 1px 1px 10px rgba(171, 243, 137, 0.5);
-        color: black;
-        cursor: pointer;
-    }
-`;
-
-const CreateCardButton = styled.button`
-    margin: 10px;
-    background-color: Salmon;
-    color: white;
-    &:hover {
-        background-color: LightSalmon;
-        box-shadow: 1px 1px 10px rgba(171, 243, 137, 0.5);
-        color: black;
-        cursor: pointer;
-    }
-`;
+import { CardsContextProvider } from '../context/CardsContext';
+import { Route, Switch } from 'react-router-dom';
+import SignIn from '../components/SignIn';
+import Cards from './Cards';
 
 class App extends Component {
-    state = {
-        readOnlyMode: false,
-    };
-
-    switchReadOnlyMode = () => {
-        this.setState({
-            readOnlyMode: !this.state.readOnlyMode,
-        });
-    };
-
     render() {
-        const { readOnlyMode } = this.state;
-
         return (
             <CardsContextProvider>
                 <Header />
-                <StyledCheckbox
-                    id="readOnlyMode"
-                    type="checkbox"
-                    onChange={this.switchReadOnlyMode}
-                    checked={readOnlyMode}
-                />
-                <label htmlFor="readOnlyMode">Read-Only</label>
-                <CardsContext.Consumer>
-                    {context => (
-                        <>
-                            <StyledButton onClick={context.handleCardDelete}>
-                                Delete selected cards
-                            </StyledButton>
-                            <CreateCardButton onClick={context.handleCardCreate}>
-                                Create new card
-                            </CreateCardButton>
-                        </>
-                    )}
-                </CardsContext.Consumer>
-                <div className="cards">
-                    <CardList readOnlyMode={readOnlyMode} />
-                </div>
+                <Switch>
+                    <Route path="/login" component={SignIn} />
+                    <Route path="/" exact component={Cards} />
+                    <Route render={() => (<h1>Not Found</h1>)} />
+                </Switch>
             </CardsContextProvider>
         );
     }
