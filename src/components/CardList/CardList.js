@@ -15,6 +15,7 @@ const CardList = props => {
                 text={card.text}
                 readOnlyMode={props.readOnlyMode}
                 onSelectHandler={context.handleCardSelect}
+                onEditHandler={context.handleEditCard}
             />
         );
     });

@@ -7,6 +7,7 @@ const CardsContext = React.createContext({
     handleCardDelete: () => {},
     handleCardSelect: () => {},
     handleCardCreate: () => {},
+    handleEditCard: () => {},
 });
 
 export class CardsContextProvider extends Component {
@@ -44,6 +45,16 @@ export class CardsContextProvider extends Component {
         }));
     };
 
+    editCard = card => {
+        this.setState(state => ({
+            cards: state.cards.map(item =>
+                item.id === card.id
+                    ? { ...item, caption: card.caption, text: card.text }
+                    : item,
+            ),
+        }));
+    };
+
     createNewCard = () => {
         this.setState(state => ({
             cards: [
@@ -66,6 +77,7 @@ export class CardsContextProvider extends Component {
                     handleCardCreate: this.createNewCard,
                     handleCardDelete: this.deleteSelectedCards,
                     handleCardSelect: this.selectCard,
+                    handleEditCard: this.editCard,
                 }}
             >
                 {this.props.children}

@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .h1-header {
@@ -12,6 +13,17 @@
     color: rgb(231, 235, 33);
     text-shadow: 3px 3px 5px black;
     text-align: center;
+}
+
+.nav-bar {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgb(230, 231, 167);
+}
+
+.nav-bar * {
+    margin: 10px;
 }
 
 .badge {
@@ -31,4 +43,9 @@
     background-color: lightgreen;
     color: rgb(150, 47, 47);
     font-weight: bold;
+}
+
+.active {
+    color:rgb(197, 108, 36);
+    text-decoration: underline;
 }

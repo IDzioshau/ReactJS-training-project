@@ -40,6 +40,7 @@ class Card extends Component {
             caption: this.state.newCaption,
             text: this.state.newText,
         });
+        this.props.onEditHandler({id: this.props.id, caption: this.state.newCaption, text: this.state.newText});
     };
 
     cancelData = () => {
