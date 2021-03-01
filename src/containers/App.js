@@ -5,6 +5,7 @@ import { CardsContextProvider } from '../context/CardsContext';
 import { Route, Switch } from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import Cards from './Cards';
+import Err404Page from './Err404Page';
 
 class App extends Component {
     render() {
@@ -14,7 +15,7 @@ class App extends Component {
                 <Switch>
                     <Route path="/login" component={SignIn} />
                     <Route path="/" exact component={Cards} />
-                    <Route render={() => (<h1>Not Found</h1>)} />
+                    <Route component={Err404Page} />
                 </Switch>
             </CardsContextProvider>
         );

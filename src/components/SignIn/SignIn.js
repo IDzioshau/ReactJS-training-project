@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './SignIn.css';
+import { Link } from 'react-router-dom';
 
 export class SignIn extends Component {
     state = {
@@ -19,7 +20,9 @@ export class SignIn extends Component {
                 <br />
                 <input id="password" type="password" />
                 <br />
-                <button>Sign In</button>
+                <Link to="/">
+                    <button>Sign In</button>
+                </Link>
             </div>
         );
     }
