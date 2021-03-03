@@ -1,3 +1,8 @@
 .login-page {
- text-align: center;
+    text-align: center;
+}
+
+button:disabled {
+    background-color: rgb(161, 157, 157);
+    cursor: not-allowed;
 }
