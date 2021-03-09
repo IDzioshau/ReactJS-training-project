@@ -34,7 +34,7 @@ export class SignIn extends Component {
         formValid: false,
     };
 
-    validate(value, rule) {
+    validate = (value, rule) => {
         let isValid = true;
 
         if (rule.required) {
@@ -43,9 +43,15 @@ export class SignIn extends Component {
 
         if (rule.email) {
             isValid =
-                /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+.([A-Za-z]{2,4})$/.test(
+                /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
                     value,
                 ) && isValid;
+            console.log(
+                /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
+                    value,
+                ),
+            );
+            console.log(isValid);
         }
 
         if (rule.minLength) {
@@ -61,9 +67,9 @@ export class SignIn extends Component {
         }
 
         return isValid;
-    }
+    };
 
-    inputChangeHandler(event, id) {
+    inputChangeHandler = (event, id) => {
         const value = event.target.value;
         const loginForm = { ...this.state.loginForm };
         const element = { ...loginForm[id] };
@@ -72,15 +78,16 @@ export class SignIn extends Component {
         loginForm[id] = element;
 
         let formValid = true;
-        for (let element in this.state.loginForm) {
-            formValid = this.validate(
-                this.state.loginForm[element].value,
-                this.state.loginForm[element].validation,
-            );
+        for (let element in loginForm) {
+            formValid =
+                this.validate(
+                    loginForm[element].value,
+                    loginForm[element].validation,
+                ) && formValid;
         }
 
         this.setState({ loginForm, formValid });
-    }
+    };
 
     render() {
         const formElements = [];
