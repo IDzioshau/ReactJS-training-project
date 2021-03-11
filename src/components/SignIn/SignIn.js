@@ -73,11 +73,7 @@ export class SignIn extends Component {
 
         let formValid = true;
         for (let element in loginForm) {
-            formValid =
-                this.validate(
-                    loginForm[element].value,
-                    loginForm[element].validation,
-                ) && formValid;
+            formValid = loginForm[element].valid && formValid;
         }
 
         this.setState({ loginForm, formValid });
