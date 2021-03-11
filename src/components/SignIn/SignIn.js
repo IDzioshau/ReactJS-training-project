@@ -46,12 +46,6 @@ export class SignIn extends Component {
                 /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
                     value,
                 ) && isValid;
-            console.log(
-                /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/.test(
-                    value,
-                ),
-            );
-            console.log(isValid);
         }
 
         if (rule.minLength) {
@@ -90,27 +84,20 @@ export class SignIn extends Component {
     };
 
     render() {
-        const formElements = [];
-        for (let element in this.state.loginForm) {
-            formElements.push({
-                id: element,
-                config: this.state.loginForm[element],
-            });
-        }
+        const { loginForm, formValid } = this.state;
+
         return (
             <div className="login-page">
                 <h2>Sign In</h2>
-                {formElements.map(element => (
+                {Object.entries(loginForm).map(([key, value]) => (
                     <Input
-                        key={element.id}
-                        {...element.config}
-                        changed={event =>
-                            this.inputChangeHandler(event, element.id)
-                        }
+                        key={key}
+                        {...value}
+                        changed={event => this.inputChangeHandler(event, key)}
                     />
                 ))}
                 <Link to="/">
-                    <button disabled={!this.state.formValid}>Sign In</button>
+                    <button disabled={!formValid}>Sign In</button>
                 </Link>
             </div>
         );
