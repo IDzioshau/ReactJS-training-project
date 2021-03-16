@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './Cards.css';
 import styled from 'styled-components';
-import CardsContext from '../../context/CardsContext';
 import CardList from '../../components/CardList';
+import { connect } from 'react-redux';
+import * as actions from '../../state/actions';
+import axios from 'axios';
 
 const StyledCheckbox = styled.input`
     margin: 10px;
@@ -42,6 +44,24 @@ export class Cards extends Component {
         readOnlyMode: false,
     };
 
+    componentDidMount() {
+        if (this.props.cards.length === 0) {
+            axios
+                .get(
+                    'https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json',
+                )
+                .then(response => {
+                    const cards = response.data.slice(0, 15).map(item => ({
+                        id: item.Number,
+                        caption: item.Name,
+                        text: item.About,
+                        selected: false,
+                    }));
+                    this.props.fetchData(cards);
+                });
+        }
+    }
+
     switchReadOnlyMode = () => {
         this.setState({
             readOnlyMode: !this.state.readOnlyMode,
@@ -50,6 +70,7 @@ export class Cards extends Component {
 
     render() {
         const { readOnlyMode } = this.state;
+        const { handleCardCreate, handleCardDelete, history } = this.props;
         return (
             <>
                 <StyledCheckbox
@@ -59,26 +80,27 @@ export class Cards extends Component {
                     checked={readOnlyMode}
                 />
                 <label htmlFor="readOnlyMode">Read-Only</label>
-                <CardsContext.Consumer>
-                    {context => (
-                        <>
-                            <StyledButton onClick={context.handleCardDelete}>
-                                Delete selected cards
-                            </StyledButton>
-                            <CreateCardButton
-                                onClick={context.handleCardCreate}
-                            >
-                                Create new card
-                            </CreateCardButton>
-                        </>
-                    )}
-                </CardsContext.Consumer>
+                <StyledButton onClick={handleCardDelete}>
+                    Delete selected cards
+                </StyledButton>
+                <CreateCardButton onClick={handleCardCreate}>
+                    Create new card
+                </CreateCardButton>
+
                 <div className="cards">
-                    <CardList readOnlyMode={readOnlyMode} />
+                    <CardList readOnlyMode={readOnlyMode} history={history} />
                 </div>
             </>
         );
     }
 }
 
-export default Cards;
+const mapStateToProps = state => ({ cards: state.cards });
+
+const mapDispatchToProps = dispatch => ({
+    handleCardCreate: () => dispatch({ type: actions.createCard }),
+    handleCardDelete: () => dispatch({ type: actions.deleteCard }),
+    fetchData: cards => dispatch({ type: actions.fetchData, cards: cards }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);
