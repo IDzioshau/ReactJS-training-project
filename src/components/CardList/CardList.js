@@ -2,22 +2,28 @@ import React from 'react';
 import './CardList.css';
 import Card from './Card';
 import { connect } from 'react-redux';
-import { editCard, selectCard} from '../../store/actions';
+import { editCard, selectCard } from '../../store/actions';
 
-const CardList = props => {
+const CardList = (
+    history,
+    cards,
+    readOnlyMode,
+    handleCardSelect,
+    handleEditCard,
+) => {
     const doubleClickHandler = id => {
-        props.history.push('/cards/' + id);
+        history.push('/cards/' + id);
     };
 
-    return props.cards.map(card => (
+    return cards.map(card => (
         <Card
             id={card.id}
             key={card.id}
             caption={card.caption}
             text={card.text}
-            readOnlyMode={props.readOnlyMode}
-            onSelectHandler={() => props.handleCardSelect(card.id)}
-            onEditHandler={editedCard => props.handleEditCard(editedCard)}
+            readOnlyMode={readOnlyMode}
+            onSelectHandler={() => handleCardSelect(card.id)}
+            onEditHandler={editedCard => handleEditCard(editedCard)}
             dblClicked={() => doubleClickHandler(card.id)}
         />
     ));
@@ -26,8 +32,8 @@ const CardList = props => {
 const mapStateToProps = state => ({ cards: state.cards });
 
 const mapDispatchToProps = {
-    handleCardSelect: id => selectCard(id),
-    handleEditCard: card => editCard(card),
+    handleCardSelect: selectCard,
+    handleEditCard: editCard,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList);

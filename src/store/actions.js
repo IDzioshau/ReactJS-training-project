@@ -1,13 +1,19 @@
-import * as actions from './actionTypes';
+import {
+    CREATE_CARD,
+    DELETE_CARD,
+    SELECT_CARD,
+    EDIT_CARD,
+    FETCH_DATA,
+} from './actionTypes';
 import axios from 'axios';
 
-export const createCard = () => ({ type: actions.CREATE_CARD });
+export const createCard = () => ({ type: CREATE_CARD });
 
-export const deleteCard = () => ({ type: actions.DELETE_CARD });
+export const deleteCard = () => ({ type: DELETE_CARD });
 
-export const selectCard = id => ({ type: actions.SELECT_CARD, id: id });
+export const selectCard = id => ({ type: SELECT_CARD, payload: { id } });
 
-export const editCard = card => ({ type: actions.EDIT_CARD, card: card });
+export const editCard = card => ({ type: EDIT_CARD, payload: { card } });
 
 export const fetchData = () => {
     return dispatch =>
@@ -17,15 +23,17 @@ export const fetchData = () => {
             )
             .then(response => {
                 dispatch({
-                    type: actions.FETCH_DATA,
-                    cards: response.data.slice(0, 15).map(item => {
-                        return {
-                            id: item.Number,
-                            caption: item.Name,
-                            text: item.About,
-                            selected: false,
-                        };
-                    }),
+                    type: FETCH_DATA,
+                    payload: {
+                        cards: response.data.slice(0, 15).map(item => {
+                            return {
+                                id: item.Number,
+                                caption: item.Name,
+                                text: item.About,
+                                selected: false,
+                            };
+                        }),
+                    },
                 });
             });
 };

@@ -87,7 +87,7 @@ const mapStateToProps = state => ({ cards: state.cards });
 const mapDispatchToProps = {
     handleCardCreate: createCard,
     handleCardDelete: deleteCard,
-    fetchData: fetchData,
+    fetchData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

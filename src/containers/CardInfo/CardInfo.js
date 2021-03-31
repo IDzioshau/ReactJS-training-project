@@ -90,7 +90,7 @@ export class CardInfo extends Component {
 const mapStateToProps = state => ({ cards: state.cards });
 
 const mapDispatchToProps = {
-    handleEditCard: card => editCard(card),
+    handleEditCard: editCard,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardInfo);

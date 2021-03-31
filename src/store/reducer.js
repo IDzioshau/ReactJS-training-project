@@ -1,4 +1,10 @@
-import * as actions from './actionTypes';
+import {
+    CREATE_CARD,
+    DELETE_CARD,
+    SELECT_CARD,
+    EDIT_CARD,
+    FETCH_DATA,
+} from './actionTypes';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
@@ -7,9 +13,9 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.FETCH_DATA:
-            return { ...state, cards: action.cards };
-        case actions.CREATE_CARD:
+        case FETCH_DATA:
+            return { ...state, cards: action.payload.cards };
+        case CREATE_CARD:
             return {
                 ...state,
                 cards: [
@@ -22,29 +28,29 @@ const reducer = (state = initialState, action) => {
                     },
                 ],
             };
-        case actions.DELETE_CARD:
+        case DELETE_CARD:
             return {
                 ...state,
                 cards: state.cards.filter(card => !card.selected),
             };
-        case actions.EDIT_CARD:
+        case EDIT_CARD:
             return {
                 ...state,
                 cards: state.cards.map(item =>
-                    item.id === action.card.id
+                    item.id === action.payload.card.id
                         ? {
                               ...item,
-                              caption: action.card.caption,
-                              text: action.card.text,
+                              caption: action.payload.card.caption,
+                              text: action.payload.card.text,
                           }
                         : item,
                 ),
             };
-        case actions.SELECT_CARD:
+        case SELECT_CARD:
             return {
                 ...state,
                 cards: state.cards.map(card =>
-                    card.id === action.id
+                    card.id === action.payload.id
                         ? { ...card, selected: !card.selected }
                         : card,
                 ),
