@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './CardInfo.css';
-import * as actions from '../../state/actions';
+import { editCard } from '../../store/actions';
 
 export class CardInfo extends Component {
     constructor(props) {
@@ -89,8 +89,8 @@ export class CardInfo extends Component {
 
 const mapStateToProps = state => ({ cards: state.cards });
 
-const mapDispatchToProps = dispatch => ({
-    handleEditCard: card => dispatch({ type: actions.editCard, card: card }),
-});
+const mapDispatchToProps = {
+    handleEditCard: card => editCard(card),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardInfo);

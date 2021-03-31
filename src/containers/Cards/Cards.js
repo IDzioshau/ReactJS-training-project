@@ -3,8 +3,7 @@ import './Cards.css';
 import styled from 'styled-components';
 import CardList from '../../components/CardList';
 import { connect } from 'react-redux';
-import * as actions from '../../state/actions';
-import axios from 'axios';
+import { createCard, deleteCard, fetchData } from '../../store/actions';
 
 const StyledCheckbox = styled.input`
     margin: 10px;
@@ -46,19 +45,7 @@ export class Cards extends Component {
 
     componentDidMount() {
         if (this.props.cards.length === 0) {
-            axios
-                .get(
-                    'https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json',
-                )
-                .then(response => {
-                    const cards = response.data.slice(0, 15).map(item => ({
-                        id: item.Number,
-                        caption: item.Name,
-                        text: item.About,
-                        selected: false,
-                    }));
-                    this.props.fetchData(cards);
-                });
+            this.props.fetchData();
         }
     }
 
@@ -97,10 +84,10 @@ export class Cards extends Component {
 
 const mapStateToProps = state => ({ cards: state.cards });
 
-const mapDispatchToProps = dispatch => ({
-    handleCardCreate: () => dispatch({ type: actions.createCard }),
-    handleCardDelete: () => dispatch({ type: actions.deleteCard }),
-    fetchData: cards => dispatch({ type: actions.fetchData, cards: cards }),
-});
+const mapDispatchToProps = {
+    handleCardCreate: createCard,
+    handleCardDelete: deleteCard,
+    fetchData: fetchData,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

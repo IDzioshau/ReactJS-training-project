@@ -1,4 +1,4 @@
-import * as actions from './actions';
+import * as actions from './actionTypes';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
@@ -7,10 +7,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actions.fetchData:
-            return { cards: action.cards };
-        case actions.createCard:
+        case actions.FETCH_DATA:
+            return { ...state, cards: action.cards };
+        case actions.CREATE_CARD:
             return {
+                ...state,
                 cards: [
                     ...state.cards,
                     {
@@ -21,10 +22,14 @@ const reducer = (state = initialState, action) => {
                     },
                 ],
             };
-        case actions.deleteCard:
-            return { cards: state.cards.filter(card => !card.selected) };
-        case actions.editCard:
+        case actions.DELETE_CARD:
             return {
+                ...state,
+                cards: state.cards.filter(card => !card.selected),
+            };
+        case actions.EDIT_CARD:
+            return {
+                ...state,
                 cards: state.cards.map(item =>
                     item.id === action.card.id
                         ? {
@@ -35,8 +40,9 @@ const reducer = (state = initialState, action) => {
                         : item,
                 ),
             };
-        case actions.selectCard:
+        case actions.SELECT_CARD:
             return {
+                ...state,
                 cards: state.cards.map(card =>
                     card.id === action.id
                         ? { ...card, selected: !card.selected }

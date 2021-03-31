@@ -2,7 +2,7 @@ import React from 'react';
 import './CardList.css';
 import Card from './Card';
 import { connect } from 'react-redux';
-import * as actions from '../../state/actions';
+import { editCard, selectCard} from '../../store/actions';
 
 const CardList = props => {
     const doubleClickHandler = id => {
@@ -25,9 +25,9 @@ const CardList = props => {
 
 const mapStateToProps = state => ({ cards: state.cards });
 
-const mapDispatchToProps = dispatch => ({
-    handleCardSelect: id => dispatch({ type: actions.selectCard, id: id }),
-    handleEditCard: card => dispatch({ type: actions.editCard, card: card }),
-});
+const mapDispatchToProps = {
+    handleCardSelect: id => selectCard(id),
+    handleEditCard: card => editCard(card),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList);
