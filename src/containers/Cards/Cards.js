@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './Cards.css';
 import styled from 'styled-components';
-import CardsContext from '../../context/CardsContext';
 import CardList from '../../components/CardList';
+import { connect } from 'react-redux';
+import { createCard, deleteCard, fetchData } from '../../store/actions';
 
 const StyledCheckbox = styled.input`
     margin: 10px;
@@ -42,6 +43,12 @@ export class Cards extends Component {
         readOnlyMode: false,
     };
 
+    componentDidMount() {
+        if (this.props.cards.length === 0) {
+            this.props.fetchData();
+        }
+    }
+
     switchReadOnlyMode = () => {
         this.setState({
             readOnlyMode: !this.state.readOnlyMode,
@@ -50,6 +57,7 @@ export class Cards extends Component {
 
     render() {
         const { readOnlyMode } = this.state;
+        const { handleCardCreate, handleCardDelete, history } = this.props;
         return (
             <>
                 <StyledCheckbox
@@ -59,26 +67,27 @@ export class Cards extends Component {
                     checked={readOnlyMode}
                 />
                 <label htmlFor="readOnlyMode">Read-Only</label>
-                <CardsContext.Consumer>
-                    {context => (
-                        <>
-                            <StyledButton onClick={context.handleCardDelete}>
-                                Delete selected cards
-                            </StyledButton>
-                            <CreateCardButton
-                                onClick={context.handleCardCreate}
-                            >
-                                Create new card
-                            </CreateCardButton>
-                        </>
-                    )}
-                </CardsContext.Consumer>
+                <StyledButton onClick={handleCardDelete}>
+                    Delete selected cards
+                </StyledButton>
+                <CreateCardButton onClick={handleCardCreate}>
+                    Create new card
+                </CreateCardButton>
+
                 <div className="cards">
-                    <CardList readOnlyMode={readOnlyMode} />
+                    <CardList readOnlyMode={readOnlyMode} history={history} />
                 </div>
             </>
         );
     }
 }
 
-export default Cards;
+const mapStateToProps = state => ({ cards: state.cards });
+
+const mapDispatchToProps = {
+    handleCardCreate: createCard,
+    handleCardDelete: deleteCard,
+    fetchData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);

@@ -22,7 +22,7 @@ class Card extends Component {
         this.setState({
             styleFlag: !this.state.styleFlag,
         });
-        this.props.onSelectHandler(this.props.id);
+        this.props.onSelectHandler();
     };
 
     switchEditMode = () => {
@@ -40,7 +40,11 @@ class Card extends Component {
             caption: this.state.newCaption,
             text: this.state.newText,
         });
-        this.props.onEditHandler({id: this.props.id, caption: this.state.newCaption, text: this.state.newText});
+        this.props.onEditHandler({
+            id: this.props.id,
+            caption: this.state.newCaption,
+            text: this.state.newText,
+        });
     };
 
     cancelData = () => {
@@ -68,10 +72,10 @@ class Card extends Component {
 
     render() {
         const { caption, text, editMode, styleFlag } = this.state;
-        const { readOnlyMode } = this.props;
+        const { readOnlyMode, dblClicked } = this.props;
 
         return (
-            <div className={styleFlag ? 'card2' : 'card'}>
+            <div className={styleFlag ? 'card2' : 'card'} onDoubleClick={dblClicked}>
                 <CardHeader
                     editMode={editMode}
                     changed={this.captionChangedHandler}

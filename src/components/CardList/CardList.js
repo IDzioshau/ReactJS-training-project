@@ -1,24 +1,39 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './CardList.css';
 import Card from './Card';
-import CardsContext from '../../context/CardsContext';
+import { connect } from 'react-redux';
+import { editCard, selectCard } from '../../store/actions';
 
-const CardList = props => {
-    const context = useContext(CardsContext);
+const CardList = ({
+    history,
+    cards,
+    readOnlyMode,
+    handleCardSelect,
+    handleEditCard,
+}) => {
+    const doubleClickHandler = id => {
+        history.push('/cards/' + id);
+    };
 
-    return context.cards.map(card => {
-        return (
-            <Card
-                id={card.id}
-                key={card.id}
-                caption={card.caption}
-                text={card.text}
-                readOnlyMode={props.readOnlyMode}
-                onSelectHandler={context.handleCardSelect}
-                onEditHandler={context.handleEditCard}
-            />
-        );
-    });
+    return cards.map(card => (
+        <Card
+            id={card.id}
+            key={card.id}
+            caption={card.caption}
+            text={card.text}
+            readOnlyMode={readOnlyMode}
+            onSelectHandler={() => handleCardSelect(card.id)}
+            onEditHandler={editedCard => handleEditCard(editedCard)}
+            dblClicked={() => doubleClickHandler(card.id)}
+        />
+    ));
 };
 
-export default CardList;
+const mapStateToProps = state => ({ cards: state.cards });
+
+const mapDispatchToProps = {
+    handleCardSelect: selectCard,
+    handleEditCard: editCard,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardList);
