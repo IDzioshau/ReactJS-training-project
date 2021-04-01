@@ -4,13 +4,13 @@ import Card from './Card';
 import { connect } from 'react-redux';
 import { editCard, selectCard } from '../../store/actions';
 
-const CardList = (
+const CardList = ({
     history,
     cards,
     readOnlyMode,
     handleCardSelect,
     handleEditCard,
-) => {
+}) => {
     const doubleClickHandler = id => {
         history.push('/cards/' + id);
     };
