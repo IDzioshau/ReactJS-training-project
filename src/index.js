@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import reducer from './store/reducer';
 import thunk from 'redux-thunk';
 
-const logger = store => {
+const logger = () => {
     return next => {
         return action => {
             console.log(action.type, action.payload);
