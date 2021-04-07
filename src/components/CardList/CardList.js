@@ -2,7 +2,7 @@ import React from 'react';
 import './CardList.css';
 import Card from './Card';
 import { connect } from 'react-redux';
-import { editCard, selectCard } from '../../store/actions';
+import { editCard, selectCard } from '../../store/actions/actions';
 
 const CardList = ({
     history,
@@ -29,7 +29,7 @@ const CardList = ({
     ));
 };
 
-const mapStateToProps = state => ({ cards: state.cards });
+const mapStateToProps = state => ({ cards: state.cardReducer.cards });
 
 const mapDispatchToProps = {
     handleCardSelect: selectCard,

@@ -4,9 +4,10 @@ import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './store/reducer';
+import CardReducer from './store/reducers/CardReducer';
+import AuthReducer from './store/reducers/AuthReducer';
 import thunk from 'redux-thunk';
 
 const logger = () => {
@@ -18,7 +19,7 @@ const logger = () => {
     };
 };
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(combineReducers({cardReducer: CardReducer, authReducer: AuthReducer}), applyMiddleware(logger, thunk));
 
 ReactDOM.render(
     <React.StrictMode>

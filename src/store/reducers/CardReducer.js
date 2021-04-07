@@ -4,15 +4,19 @@ import {
     SELECT_CARD,
     EDIT_CARD,
     FETCH_DATA,
-} from './actionTypes';
+    READ_ONLY_MODE,
+} from '../actions/actionTypes';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     cards: [],
+    readOnlyMode: false,
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case READ_ONLY_MODE:
+            return { ...state, readOnlyMode: !state.readOnlyMode };
         case FETCH_DATA:
             return { ...state, cards: action.payload.cards };
         case CREATE_CARD:

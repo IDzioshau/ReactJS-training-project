@@ -3,16 +3,7 @@ import './Cards.css';
 import styled from 'styled-components';
 import CardList from '../../components/CardList';
 import { connect } from 'react-redux';
-import { createCard, deleteCard, fetchData } from '../../store/actions';
-
-const StyledCheckbox = styled.input`
-    margin: 10px;
-    transform: scale(1.5);
-    &:hover {
-        box-shadow: 0px 0px 10px rgba(11, 161, 56, 0.5);
-        cursor: pointer;
-    }
-`;
+import { createCard, deleteCard, fetchData } from '../../store/actions/actions';
 
 const StyledButton = styled.button`
     margin: 10px;
@@ -39,41 +30,32 @@ const CreateCardButton = styled.button`
 `;
 
 export class Cards extends Component {
-    state = {
-        readOnlyMode: false,
-    };
-
     componentDidMount() {
         if (this.props.cards.length === 0) {
             this.props.fetchData();
         }
     }
 
-    switchReadOnlyMode = () => {
-        this.setState({
-            readOnlyMode: !this.state.readOnlyMode,
-        });
-    };
-
     render() {
-        const { readOnlyMode } = this.state;
-        const { handleCardCreate, handleCardDelete, history } = this.props;
+        const {
+            handleCardCreate,
+            handleCardDelete,
+            history,
+            readOnlyMode,
+        } = this.props;
         return (
             <>
-                <StyledCheckbox
-                    id="readOnlyMode"
-                    type="checkbox"
-                    onChange={this.switchReadOnlyMode}
-                    checked={readOnlyMode}
-                />
-                <label htmlFor="readOnlyMode">Read-Only</label>
-                <StyledButton onClick={handleCardDelete}>
-                    Delete selected cards
-                </StyledButton>
-                <CreateCardButton onClick={handleCardCreate}>
-                    Create new card
-                </CreateCardButton>
+                {!readOnlyMode && (
+                    <>
+                        <StyledButton onClick={handleCardDelete}>
+                            Delete selected cards
+                        </StyledButton>
 
+                        <CreateCardButton onClick={handleCardCreate}>
+                            Create new card
+                        </CreateCardButton>
+                    </>
+                )}
                 <div className="cards">
                     <CardList readOnlyMode={readOnlyMode} history={history} />
                 </div>
@@ -82,7 +64,10 @@ export class Cards extends Component {
     }
 }
 
-const mapStateToProps = state => ({ cards: state.cards });
+const mapStateToProps = state => ({
+    cards: state.cardReducer.cards,
+    readOnlyMode: state.cardReducer.readOnlyMode,
+});
 
 const mapDispatchToProps = {
     handleCardCreate: createCard,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import { Link } from 'react-router-dom';
 import Input from '../Input';
+import { authorize } from '../../store/reducers/AuthReducer';
+import { connect } from 'react-redux';
 
 export class SignIn extends Component {
     state = {
@@ -15,7 +16,7 @@ export class SignIn extends Component {
                     required: true,
                     email: true,
                 },
-                valid: true,
+                valid: false,
             },
             password: {
                 element: 'input',
@@ -28,10 +29,11 @@ export class SignIn extends Component {
                     requiredNumbers: true,
                     requiredLetters: true,
                 },
-                valid: true,
+                valid: false,
             },
         },
         formValid: false,
+        incorrectData: false,
     };
 
     validate = (value, rule) => {
@@ -79,12 +81,29 @@ export class SignIn extends Component {
         this.setState({ loginForm, formValid });
     };
 
+    authorize = () => {
+        const user = this.props.users.find(
+            item =>
+                item.username === this.state.loginForm.username.value &&
+                item.password === this.state.loginForm.password.value,
+        );
+        if (user) {
+            this.props.authorize(user);
+            this.props.history.push('/');
+        } else {
+            this.setState({ incorrectData: true });
+        }
+    };
+
     render() {
-        const { loginForm, formValid } = this.state;
+        const { loginForm, formValid, incorrectData } = this.state;
 
         return (
             <div className="login-page">
                 <h2>Sign In</h2>
+                {incorrectData && (
+                    <p className="error-message">Authentication failed</p>
+                )}
                 {Object.entries(loginForm).map(([key, value]) => (
                     <Input
                         key={key}
@@ -92,12 +111,21 @@ export class SignIn extends Component {
                         changed={event => this.inputChangeHandler(event, key)}
                     />
                 ))}
-                <Link to="/">
-                    <button disabled={!formValid}>Sign In</button>
-                </Link>
+
+                <button disabled={!formValid} onClick={this.authorize}>
+                    Sign In
+                </button>
             </div>
         );
     }
 }
 
-export default SignIn;
+const mapStateToProps = state => ({
+    users: state.authReducer.users,
+});
+
+const mapDispatchToProps = {
+    authorize,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

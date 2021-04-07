@@ -46,6 +46,12 @@
 }
 
 .active {
-    color:rgb(197, 108, 36);
+    color: rgb(197, 108, 36);
     text-decoration: underline;
+}
+
+.welcome {
+    font-weight: bold;
+    font-style: italic;
+    color: rgb(231, 235, 33);
 }
