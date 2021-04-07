@@ -82,16 +82,19 @@ export class SignIn extends Component {
     };
 
     authorize = () => {
-        const user = this.props.users.find(
-            item =>
-                item.username === this.state.loginForm.username.value &&
-                item.password === this.state.loginForm.password.value,
-        );
-        if (user) {
-            this.props.authorize(user);
-            this.props.history.push('/');
+        if (this.props.admin.username === this.state.loginForm.username.value) {
+            if (
+                this.props.admin.password ===
+                this.state.loginForm.password.value
+            ) {
+                this.props.authorize(this.props.admin.username);
+                this.props.history.push('/');
+            } else {
+                this.setState({ incorrectData: true });
+            }
         } else {
-            this.setState({ incorrectData: true });
+            this.props.authorize(this.state.loginForm.username.value);
+            this.props.history.push('/');
         }
     };
 
@@ -102,7 +105,10 @@ export class SignIn extends Component {
             <div className="login-page">
                 <h2>Sign In</h2>
                 {incorrectData && (
-                    <p className="error-message">Authentication failed</p>
+                    <p className="error-message">
+                        Administrator authentication failed. password is
+                        invalid!
+                    </p>
                 )}
                 {Object.entries(loginForm).map(([key, value]) => (
                     <Input
@@ -121,7 +127,7 @@ export class SignIn extends Component {
 }
 
 const mapStateToProps = state => ({
-    users: state.authReducer.users,
+    admin: state.authReducer.admin,
 });
 
 const mapDispatchToProps = {

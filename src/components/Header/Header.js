@@ -4,15 +4,22 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logOut } from '../../store/reducers/AuthReducer';
 
-const Header = ({ cards, currentUser, logOut }) => (
+const Header = ({ cards, currentUser, logOut, admin }) => (
     <div className="app-header">
         <h1 className="h1-header">React App</h1>
         <nav className="nav-bar">
             <NavLink to="/" exact activeClassName="active">
                 Home
             </NavLink>
+            {currentUser && currentUser === admin.username && (
+                <NavLink to="/settings">Settings</NavLink>
+            )}
             <NavLink to="/login" activeClassName="active">
-                {currentUser ? <span onClick={logOut}>Log Out</span> : <span>Sign In</span>}
+                {currentUser ? (
+                    <span onClick={logOut}>Log Out</span>
+                ) : (
+                    <span>Sign In</span>
+                )}
             </NavLink>
         </nav>
         <div className="badge">
@@ -20,16 +27,14 @@ const Header = ({ cards, currentUser, logOut }) => (
         </div>
         {currentUser && (
             <div>
-                {currentUser.role === 'ADMIN' && (
-                    <NavLink to="/settings">Settings</NavLink>
-                )}
-                <p className="welcome">Welcome, {currentUser.username}</p>
+                <p className="welcome">Welcome, {currentUser}</p>
             </div>
         )}
     </div>
 );
 
 const mapStatetoProps = state => ({
+    admin: state.authReducer.admin,
     cards: state.cardReducer.cards,
     currentUser: state.authReducer.currentUser,
 });

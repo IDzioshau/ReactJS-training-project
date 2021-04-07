@@ -13,17 +13,12 @@ import { authorize } from '../store/reducers/AuthReducer';
 class App extends Component {
     componentDidMount() {
         if (localStorage.getItem('auth_token')) {
-            this.props.authorize(
-                this.props.users.find(
-                    item =>
-                        item.username === localStorage.getItem('auth_token'),
-                ),
-            );
+            this.props.authorize(localStorage.getItem('auth_token'));
         }
     }
 
     render() {
-        const { currentUser } = this.props;
+        const { currentUser, admin } = this.props;
         return (
             <>
                 <Header />
@@ -34,7 +29,7 @@ class App extends Component {
                     <Route
                         path="/settings"
                         render={() =>
-                            currentUser && currentUser.role === 'ADMIN' ? (
+                            currentUser && currentUser === admin.username ? (
                                 <Settings />
                             ) : (
                                 <Redirect to="/" />
@@ -49,7 +44,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    users: state.authReducer.users,
+    admin: state.authReducer.admin,
     currentUser: state.authReducer.currentUser,
 });
 
