@@ -12,11 +12,11 @@ const AuthReducer = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        authorize(state, action) {
+        authorize: (state, action) => {
             localStorage.setItem('auth_token', action.payload);
             state.currentUser = action.payload;
         },
-        logOut(state) {
+        logOut: state => {
             state.currentUser = null;
             localStorage.removeItem('auth_token');
         },
