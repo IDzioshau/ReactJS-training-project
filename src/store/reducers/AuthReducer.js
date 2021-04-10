@@ -6,6 +6,7 @@ const initialState = {
         password: '12345yuiopp',
     },
     currentUser: null,
+    isAdmin: false,
 };
 
 const AuthReducer = createSlice({
@@ -13,12 +14,15 @@ const AuthReducer = createSlice({
     initialState,
     reducers: {
         authorize: (state, action) => {
-            localStorage.setItem('auth_token', action.payload);
+            localStorage.setItem('auth_token', JSON.stringify(action.payload));
             state.currentUser = action.payload;
+            state.isAdmin =
+                JSON.stringify(action.payload) === JSON.stringify(state.admin);
         },
         logOut: state => {
             state.currentUser = null;
             localStorage.removeItem('auth_token');
+            state.isAdmin = false;
         },
     },
 });

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Header from '../components/Header';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import SignIn from '../components/SignIn';
+import SignIn from './SignIn';
 import Cards from './Cards';
 import Err404Page from './Err404Page';
 import CardInfo from './CardInfo';
@@ -13,12 +13,12 @@ import { authorize } from '../store/reducers/AuthReducer';
 class App extends Component {
     componentDidMount() {
         if (localStorage.getItem('auth_token')) {
-            this.props.authorize(localStorage.getItem('auth_token'));
+            this.props.authorize(JSON.parse(localStorage.getItem('auth_token')));
         }
     }
 
     render() {
-        const { currentUser, admin } = this.props;
+        const { isAdmin } = this.props;
         return (
             <>
                 <Header />
@@ -29,7 +29,7 @@ class App extends Component {
                     <Route
                         path="/settings"
                         render={() =>
-                            currentUser && currentUser === admin.username ? (
+                            isAdmin ? (
                                 <Settings />
                             ) : (
                                 <Redirect to="/" />
@@ -44,8 +44,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    admin: state.authReducer.admin,
-    currentUser: state.authReducer.currentUser,
+    isAdmin: state.authReducer.isAdmin,
 });
 
 const mapDispatchToProps = { authorize };

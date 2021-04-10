@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import Input from '../Input';
+import Input from '../../components/Input';
 import { authorize } from '../../store/reducers/AuthReducer';
 import { connect } from 'react-redux';
 
@@ -33,7 +33,6 @@ export class SignIn extends Component {
             },
         },
         formValid: false,
-        incorrectData: false,
     };
 
     validate = (value, rule) => {
@@ -82,34 +81,19 @@ export class SignIn extends Component {
     };
 
     authorize = () => {
-        if (this.props.admin.username === this.state.loginForm.username.value) {
-            if (
-                this.props.admin.password ===
-                this.state.loginForm.password.value
-            ) {
-                this.props.authorize(this.props.admin.username);
-                this.props.history.push('/');
-            } else {
-                this.setState({ incorrectData: true });
-            }
-        } else {
-            this.props.authorize(this.state.loginForm.username.value);
-            this.props.history.push('/');
-        }
+        this.props.authorize({
+            username: this.state.loginForm.username.value,
+            password: this.state.loginForm.password.value,
+        });
+        this.props.history.push('/');
     };
 
     render() {
-        const { loginForm, formValid, incorrectData } = this.state;
+        const { loginForm, formValid } = this.state;
 
         return (
             <div className="login-page">
                 <h2>Sign In</h2>
-                {incorrectData && (
-                    <p className="error-message">
-                        Administrator authentication failed. password is
-                        invalid!
-                    </p>
-                )}
                 {Object.entries(loginForm).map(([key, value]) => (
                     <Input
                         key={key}
@@ -127,7 +111,7 @@ export class SignIn extends Component {
 }
 
 const mapStateToProps = state => ({
-    admin: state.authReducer.admin,
+    incorrectAdminPassword: state.authReducer.incorrectAdminPassword,
 });
 
 const mapDispatchToProps = {
