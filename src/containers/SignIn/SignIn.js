@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './SignIn.css';
-import { Link } from 'react-router-dom';
-import Input from '../Input';
+import Input from '../../components/Input';
+import { authorize } from '../../store/reducers/AuthReducer';
+import { connect } from 'react-redux';
 
 export class SignIn extends Component {
     state = {
@@ -15,7 +16,7 @@ export class SignIn extends Component {
                     required: true,
                     email: true,
                 },
-                valid: true,
+                valid: false,
             },
             password: {
                 element: 'input',
@@ -28,7 +29,7 @@ export class SignIn extends Component {
                     requiredNumbers: true,
                     requiredLetters: true,
                 },
-                valid: true,
+                valid: false,
             },
         },
         formValid: false,
@@ -79,6 +80,14 @@ export class SignIn extends Component {
         this.setState({ loginForm, formValid });
     };
 
+    authorize = () => {
+        this.props.authorize({
+            username: this.state.loginForm.username.value,
+            password: this.state.loginForm.password.value,
+        });
+        this.props.history.push('/');
+    };
+
     render() {
         const { loginForm, formValid } = this.state;
 
@@ -92,12 +101,17 @@ export class SignIn extends Component {
                         changed={event => this.inputChangeHandler(event, key)}
                     />
                 ))}
-                <Link to="/">
-                    <button disabled={!formValid}>Sign In</button>
-                </Link>
+
+                <button disabled={!formValid} onClick={this.authorize}>
+                    Sign In
+                </button>
             </div>
         );
     }
 }
 
-export default SignIn;
+const mapDispatchToProps = {
+    authorize,
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);

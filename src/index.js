@@ -6,8 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './store/reducer';
 import thunk from 'redux-thunk';
+import rootReducer from './store/reducers';
 
 const logger = () => {
     return next => {
@@ -18,7 +18,7 @@ const logger = () => {
     };
 };
 
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
     <React.StrictMode>

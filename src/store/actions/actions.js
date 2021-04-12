@@ -4,10 +4,13 @@ import {
     SELECT_CARD,
     EDIT_CARD,
     FETCH_DATA,
+    READ_ONLY_MODE,
 } from './actionTypes';
 import axios from 'axios';
 
 export const createCard = () => ({ type: CREATE_CARD });
+
+export const switchReadOnlyMode = () => ({ type: READ_ONLY_MODE });
 
 export const deleteCard = () => ({ type: DELETE_CARD });
 

@@ -6,3 +6,7 @@ button:disabled {
     background-color: rgb(161, 157, 157);
     cursor: not-allowed;
 }
+
+.error-message {
+    color: rgb(212, 66, 66);
+}
