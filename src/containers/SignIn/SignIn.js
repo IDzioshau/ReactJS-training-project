@@ -110,12 +110,8 @@ export class SignIn extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    incorrectAdminPassword: state.authReducer.incorrectAdminPassword,
-});
-
 const mapDispatchToProps = {
     authorize,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);
