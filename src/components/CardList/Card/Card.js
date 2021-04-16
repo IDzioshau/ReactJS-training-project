@@ -5,7 +5,7 @@ import CardBody from './CardBody';
 import withLoadingDelay from '../../../hoc/withLoadingDelay';
 import PropTypes from 'prop-types';
 
-class Card extends Component {
+export class Card extends Component {
     constructor(props) {
         super(props);
         this.state = {
