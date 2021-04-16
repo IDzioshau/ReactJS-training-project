@@ -1,9 +1,6 @@
 import React from 'react';
-import Adapter from 'enzyme-adapter-react-16';
-import { shallow, configure } from 'enzyme';
+import { shallow } from 'enzyme';
 import CardBody from './CardBody';
-
-configure({ adapter: new Adapter() });
 
 describe('CardBody testing', () => {
     let wrapper;

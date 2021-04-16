@@ -1,12 +1,9 @@
 import React from 'react';
-import Adapter from 'enzyme-adapter-react-16';
-import { shallow, configure } from 'enzyme';
+import { shallow } from 'enzyme';
 import CardHeader from './CardHeader';
 import { MdModeEdit } from 'react-icons/md';
 import { BiSave } from 'react-icons/bi';
 import { RiArrowGoBackLine } from 'react-icons/ri';
-
-configure({ adapter: new Adapter() });
 
 describe('CardHeader testing', () => {
     let wrapper;
